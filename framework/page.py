@@ -17,16 +17,14 @@ class Page:
 
     def find_and_click_element(self, xpath: str) -> bool:
         try:
-            element = self.find_element(xpath)
-            element.click()
+            self.find_element(xpath).click()
             return True
         except Exception:
             return False
 
     def find_and_send_keys_element(self, xpath: str, value: str) -> bool:
         try:
-            element = self.find_element(xpath)
-            element.send_keys(value)
+            self.find_element(xpath).send_keys(value)
             return True
         except Exception:
             return False
