@@ -1,0 +1,23 @@
+[tool.poetry]
+name = "pytest-01"
+version = "0.1.0"
+description = ""
+authors = ["YpL68 <yuriy.plks@gmail.com>"]
+readme = "README.md"
+packages = [{include = "pytest_01"}]
+
+[tool.poetry.dependencies]
+python = "^3.10"
+pydantic = "^2.6.4"
+appium-python-client = "^4.0.0"
+
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^8.1.1"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.pytest.ini_options]
+pythonpath = ["."]
