@@ -1,13 +1,23 @@
-from time import sleep
-from framework.login_page import LoginPage
-from framework.home_page import HomePage
+from contextlib import nullcontext as does_not_raise
+
+import pytest
+
+import conf.constants as c
 
 
-def test_find_battery(driver) -> None:
-    driver.implicitly_wait(2)
-    HomePage(driver).login_button_click()
-    login_page = LoginPage(driver)
-    login_page.fill_email_field("qa.ajax.app.automation@gmail.com")
-    login_page.fill_password_field("qa_automation_password")
-    login_page.login_button_click()
-    sleep(15)
+class TestLogin:
+    @pytest.mark.parametrize(
+        "email_str, password_str, result, expected",
+        [
+            (c.CORRECT_EMAIL, c.CORRECT_PASSWORD, True, does_not_raise()),
+            (c.CORRECT_EMAIL, c.INCORRECT_PASSWORD, False, does_not_raise()),
+            (c.INCORRECT_EMAIL, c.CORRECT_EMAIL, False, does_not_raise()),
+            (c.INCORRECT_EMAIL, c.INCORRECT_PASSWORD, False, does_not_raise()),
+            (c.INVALID_EMAIL_FORMAT, c.INCORRECT_PASSWORD, False, does_not_raise()),
+            (c.EMPTY_EMAIL_STRING, c.CORRECT_PASSWORD, False, does_not_raise()),
+            (c.CORRECT_EMAIL, c.EMPTY_PASSWORD_STRING, False, does_not_raise()),
+            (c.EMPTY_EMAIL_STRING, c.EMPTY_PASSWORD_STRING, False, does_not_raise()),
+        ])
+    def test_login_page(self, login_page_fixture, email_str, password_str, result, expected):
+        login_page = login_page_fixture
+        assert login_page.user_login_emulation(email_str, password_str) == result
