@@ -5,5 +5,3 @@ INCORRECT_PASSWORD = "invalid_password"
 INVALID_EMAIL_FORMAT = "invalid_email_format"
 EMPTY_EMAIL_STRING = ""
 EMPTY_PASSWORD_STRING = ""
-
-

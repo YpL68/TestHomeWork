@@ -15,7 +15,7 @@ def get_dev_id() -> str | None:
         return None
 
 
-def android_get_desired_capabilities():
+def android_get_desired_capabilities() -> dict:
     capabilities = {
         'autoGrantPermissions': True,
         'automationName': 'uiautomator2',
@@ -34,5 +34,4 @@ def android_get_desired_capabilities():
     dev_id = get_dev_id()
     if dev_id:
         capabilities["appium:udid"] = dev_id
-
     return capabilities
