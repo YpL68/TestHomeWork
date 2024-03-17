@@ -2,10 +2,10 @@ from contextlib import nullcontext as does_not_raise
 
 import pytest
 
-import conf.constants as c
-import conf.logger
+import framework.conf.constants as c
+import framework.conf.logger
 
-logger = conf.logger.get_logger(__name__)
+logger = framework.conf.logger.get_logger(__name__)
 
 
 class TestLogin:

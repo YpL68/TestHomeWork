@@ -2,9 +2,9 @@ from appium.webdriver.common.appiumby import AppiumBy
 from appium.webdriver.webdriver import WebDriver
 from appium.webdriver.webelement import WebElement
 
-import conf.logger
+import framework.conf.logger
 
-logger = conf.logger.get_logger(__name__)
+logger = framework.conf.logger.get_logger(__name__)
 
 
 class Page:

@@ -1,6 +1,6 @@
 import logging
 
-from conf.config import LOG_FILE_PATH
+from framework.conf.config import LOG_FILE_PATH
 
 _log_format = f"%(asctime)s - [%(levelname)s] - %(name)s - (%(filename)s).%(funcName)s(%(lineno)d) - %(message)s"
 
