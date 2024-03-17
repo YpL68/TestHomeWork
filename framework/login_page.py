@@ -1,3 +1,4 @@
+from framework.conf.constants import CORRECT_EMAIL, CORRECT_PASSWORD
 from framework.page import Page, WebDriver
 from framework.locators.login_page import LOCATORS as LPL
 from framework.locators.hamburger_menu import LOCATORS as HML
@@ -17,7 +18,10 @@ class LoginPage(Page):
     def user_login_test(self, email_str: str, password_str: str) -> bool | None:
         try:
             self.user_login_emulation(email_str, password_str)
-            self.driver.implicitly_wait(20)  # emulator is very slow
+            if email_str == CORRECT_EMAIL and password_str == CORRECT_PASSWORD:
+                self.driver.implicitly_wait(20)  # emulator is very slow
+            else:
+                self.driver.implicitly_wait(5)
 
             # Хотів зробити повернення на початковий екран, але через раз
             # спрацьовує клік на гамбургер-меню - можливо із-за емулятора.
