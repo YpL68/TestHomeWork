@@ -26,7 +26,7 @@ def run_appium_server():
 @pytest.fixture
 def driver(run_appium_server):
     app_driver = webdriver.Remote(appium_server_url, options=capabilities_options)
-    app_driver.implicitly_wait(2)
+    app_driver.implicitly_wait(10)
     yield app_driver
     if app_driver:
         app_driver.quit()
