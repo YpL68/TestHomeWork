@@ -14,11 +14,15 @@ class Page:
 
     def find_element(self, element: dict, logging: bool = True) -> WebElement:
         try:
-            return self.driver.find_element(AppiumBy.XPATH, element.get("xpath"))
+            element_id = element.get("id", None)
+            if element_id is not None:
+                return self.driver.find_element(AppiumBy.ID, element_id)
+            else:
+                return self.driver.find_element(AppiumBy.XPATH, element.get("xpath"))
         except Exception as err:
             if logging:
                 logger.error(f"\nAn error occurred when searching for an element "
-                             f"\"{self.name_page}: {element.get('name')}\"")
+                             f"\"{element.get('name')}\"")
             raise err
 
     def find_and_click_element(self, element: dict, logging: bool = True):
@@ -27,22 +31,21 @@ class Page:
         except Exception as err:
             if logging:
                 logger.error(f"\nAn error occurred when clicking on an element "
-                             f"\"{self.name_page}: {element.get('name')}\"")
+                             f"\"{element.get('name')}\"")
             raise err
 
     def find_and_send_keys_element(self, element: dict, value: str, logging: bool = True):
         try:
-            self.find_element(element).send_keys(value)
+            self.find_element(element).clear().send_keys(value)
         except Exception as err:
             if logging:
                 logger.error(f"\nAn error occurred when sending keys to an element "
-                             f"\"{self.name_page}: {element.get('name')}\"")
+                             f"\"{element.get('name')}\"")
             raise err
 
     def find_key_element(self, element: dict) -> bool:
         try:
             self.find_element(element, False)
-            # self.driver.find_element(AppiumBy.XPATH, element["xpath"])
             return True
         except Exception:
             return False
