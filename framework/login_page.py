@@ -1,41 +1,37 @@
 from framework.page import Page, WebDriver
+from framework.locators.login_page import LOCATORS as LPL
+from framework.locators.hamburger_menu import LOCATORS as HML
 
 
 class LoginPage(Page):
-    title_login_button: dict = \
-        {"name": "title login button",
-         "xpath": '(//*[@resource-id="com.ajaxsystems:id/compose_view"])[1]'}
-    email_field: dict = \
-        {"name": "email field",
-         "xpath": '//android.widget.EditText[@resource-id="com.ajaxsystems:id/authLoginEmail"]'}
-    password_field: dict = \
-        {"name": "password field",
-         "xpath": '//android.widget.EditText[@resource-id="com.ajaxsystems:id/authLoginPassword"]'}
-    login_button: dict = \
-        {"name": "login button",
-         "xpath": '(//*[@resource-id="com.ajaxsystems:id/compose_view"])[4]'}
-    back_button: dict = \
-        {"name": "back button",
-         "xpath": '//*[@resource-id="com.ajaxsystems:id/back"]'}
-    forgot_button: dict = \
-        {"name": "forgot button",
-         "xpath": '(//*[@resource-id="com.ajaxsystems:id/compose_view"])[3]'}
-    hamburger_menu_button: dict = \
-        {"name": "hamburger menu button",
-         "xpath": '//android.widget.ImageView[@resource-id="com.ajaxsystems:id/menuDrawer"]'}
-
     def __init__(self, driver: WebDriver):
         super().__init__(driver=driver, name_page="Login page")
 
-    def user_login_emulation(self, email_str: str, password_str: str) -> bool | None:
-        try:
-            self.driver.implicitly_wait(30)  # emulator is very slow
-            self.find_and_click_element(self.title_login_button)
-            self.driver.implicitly_wait(5)
-            self.find_and_send_keys_element(self.email_field, email_str)
-            self.find_and_send_keys_element(self.password_field, password_str)
-            self.find_and_click_element(self.login_button)
+    def user_login_emulation(self, email_str: str, password_str: str) -> None:
+        self.driver.implicitly_wait(5)
+        self.find_and_click_element(LPL["title_login_button"])
+        self.find_and_send_keys_element(LPL["email_field"], email_str)
+        self.find_and_send_keys_element(LPL["password_field"], password_str)
+        self.find_and_click_element(LPL["login_button"])
 
-            return True if self.find_key_element(self.hamburger_menu_button) else False
+    def user_login_test(self, email_str: str, password_str: str) -> bool | None:
+        try:
+            self.user_login_emulation(email_str, password_str)
+            self.driver.implicitly_wait(20)  # emulator is very slow
+
+            # Хотів зробити повернення на початковий екран, але через раз
+            # спрацьовує клік на гамбургер-меню - можливо із-за емулятора.
+            # Тому переставив скоп в фікстурі драйвера на функцію
+            # result = self.find_key_element(HML["hamburger_menu_button"])
+            # if result is True:
+            #     self.driver.implicitly_wait(5)
+            #     self.find_and_click_element(HML["hamburger_menu_button"])
+            #     self.find_and_click_element(HML["app_settings"])
+            #     self.find_and_click_element(HML["sign_out"])
+            # elif result is False:
+            #     self.find_and_click_element(HML["back_button"])
+            # return result
+
+            return True if self.find_key_element(HML["hamburger_menu_button"]) else False
         except Exception:
             return None

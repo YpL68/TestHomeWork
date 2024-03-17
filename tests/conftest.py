@@ -23,7 +23,7 @@ def run_appium_server():
     time.sleep(5)
 
 
-@pytest.fixture
+@pytest.fixture(scope="function")
 def driver(run_appium_server):
     app_driver = webdriver.Remote(appium_server_url, options=capabilities_options)
     app_driver.implicitly_wait(10)
