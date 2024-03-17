@@ -10,7 +10,7 @@ logger = framework.conf.logger.get_logger(__name__)
 
 class TestLogin:
     @pytest.mark.parametrize(
-        "num_test, email_str, password_str, result, expected",
+        "num_test, email_str, password_str, expected_result, expected",
         [
             (1, c.CORRECT_EMAIL, c.CORRECT_PASSWORD, True, does_not_raise()),
             (2, c.CORRECT_EMAIL, c.INCORRECT_PASSWORD, False, does_not_raise()),
@@ -21,12 +21,12 @@ class TestLogin:
             (7, c.CORRECT_EMAIL, c.EMPTY_PASSWORD_STRING, False, does_not_raise()),
             (8, c.EMPTY_EMAIL_STRING, c.EMPTY_PASSWORD_STRING, False, does_not_raise()),
         ])
-    def test_login_page(self, login_page_fixture, num_test, email_str, password_str, result, expected):
+    def test_login_page(self, login_page_fixture, num_test, email_str, password_str, expected_result, expected):
         logger.info(f"\nSTART TEST USER LOGIN # {num_test}")
         login_page = login_page_fixture
-        v_result = login_page.user_login_test(email_str, password_str)
-        if v_result == result:
+        v_result = login_page.user_login_test(email_str, password_str, expected_result)
+        if v_result == expected_result:
             logger.info(f"\nTest user login has been successfully completed.")
         else:
             logger.error(f"\nOps, something went wrong... :-(")
-        assert v_result == result
+        assert v_result == expected_result
