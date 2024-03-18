@@ -1,6 +1,7 @@
 from appium.webdriver.common.appiumby import AppiumBy
 from appium.webdriver.webdriver import WebDriver
 from appium.webdriver.webelement import WebElement
+from selenium.common import NoSuchElementException
 
 import framework.conf.logger
 from framework.page_element import PageElement
@@ -43,9 +44,11 @@ class Page:
                              f"\"{element.name}\"")
             raise err
 
-    def find_key_element(self, element: PageElement) -> bool:
+    def find_key_element(self, element: PageElement) -> bool | None:
         try:
             self.find_element(element, False)
             return True
-        except Exception:
+        except NoSuchElementException:
             return False
+        except Exception:
+            return None
