@@ -26,7 +26,7 @@ class LoginPage(Page):
             self.driver.implicitly_wait(timeout)
             # -------------------------------------------------
 
-            return True if self.find_key_element(HMElements.hamburger_menu_button) else False
+            return self.find_key_element(HMElements.hamburger_menu_button)
         except Exception as err:
-            logger.error(f"\nAn error occurred when user_login_test was called:\n{str(err)}")
+            # logger.error(f"\nAn error occurred when user_login_test was called:\n{str(err)}")
             return None

@@ -5,7 +5,7 @@ from framework.hamburger_menu_elements import HamburgerMenuElements as HMElement
 
 class HamburgerMenu(Page):
     def __init__(self, driver: WebDriver):
-        super().__init__(driver=driver, name_page="Login page")
+        super().__init__(driver=driver, name_page="Hamburger page")
 
     def hamburger_menu_element_click(self, element: PageElement) -> bool | None:
         try:
@@ -17,7 +17,7 @@ class HamburgerMenu(Page):
             return None
 
     def app_settings_click(self) -> bool | None:
-        return self.hamburger_menu_element_click(HMElements.app_settings)
+        return self.hamburger_menu_element_click(HMElements.help)
 
     def help_click(self) -> bool | None:
         return self.hamburger_menu_element_click(HMElements.app_settings)
