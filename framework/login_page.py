@@ -1,6 +1,6 @@
 from framework.page import Page, WebDriver
-from framework.locators.login_page import LOCATORS as LPL
-from framework.locators.hamburger_menu import LOCATORS as HML
+from framework.login_page_elements import LoginPageElements as LPElements
+from framework.hamburger_menu_elements import HamburgerMenuElements as HMElements
 
 
 class LoginPage(Page):
@@ -9,10 +9,10 @@ class LoginPage(Page):
 
     def user_login_emulation(self, email_str: str, password_str: str) -> None:
         self.driver.implicitly_wait(5)
-        self.find_and_click_element(LPL["title_login_button"])
-        self.find_and_send_keys_element(LPL["email_field"], email_str)
-        self.find_and_send_keys_element(LPL["password_field"], password_str)
-        self.find_and_click_element(LPL["login_button"])
+        self.find_and_click_element(LPElements.title_login_button)
+        self.find_and_send_keys_element(LPElements.email_field, email_str)
+        self.find_and_send_keys_element(LPElements.password_field, password_str)
+        self.find_and_click_element(LPElements.login_button)
 
     def user_login_test(self, email_str: str, password_str: str, expected: bool) -> bool | None:
         try:
@@ -23,6 +23,6 @@ class LoginPage(Page):
             self.driver.implicitly_wait(timeout)
             # -------------------------------------------------
 
-            return True if self.find_key_element(HML["hamburger_menu_button"]) else False
+            return True if self.find_key_element(HMElements.hamburger_menu_button) else False
         except Exception:
             return None

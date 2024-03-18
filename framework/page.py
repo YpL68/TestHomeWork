@@ -3,6 +3,7 @@ from appium.webdriver.webdriver import WebDriver
 from appium.webdriver.webelement import WebElement
 
 import framework.conf.logger
+from framework.page_element import PageElement
 
 logger = framework.conf.logger.get_logger(__name__)
 
@@ -12,38 +13,37 @@ class Page:
         self.driver = driver
         self.name_page = name_page
 
-    def find_element(self, element: dict, logging: bool = True) -> WebElement:
+    def find_element(self, element: PageElement, logging: bool = True) -> WebElement:
         try:
-            element_id = element.get("id", None)
-            if element_id is not None:
-                return self.driver.find_element(AppiumBy.ID, element_id)
+            if element.id:
+                return self.driver.find_element(AppiumBy.ID, element.id)
             else:
-                return self.driver.find_element(AppiumBy.XPATH, element.get("xpath"))
+                return self.driver.find_element(AppiumBy.XPATH, element.xpath)
         except Exception as err:
             if logging:
                 logger.error(f"\nAn error occurred when searching for an element "
-                             f"\"{element.get('name')}\"")
+                             f"\"{element.name}\"")
             raise err
 
-    def find_and_click_element(self, element: dict, logging: bool = True):
+    def find_and_click_element(self, element: PageElement, logging: bool = True):
         try:
             self.find_element(element).click()
         except Exception as err:
             if logging:
                 logger.error(f"\nAn error occurred when clicking on an element "
-                             f"\"{element.get('name')}\"")
+                             f"\"{element.name}\"")
             raise err
 
-    def find_and_send_keys_element(self, element: dict, value: str, logging: bool = True):
+    def find_and_send_keys_element(self, element: PageElement, value: str, logging: bool = True):
         try:
             self.find_element(element).clear().send_keys(value)
         except Exception as err:
             if logging:
                 logger.error(f"\nAn error occurred when sending keys to an element "
-                             f"\"{element.get('name')}\"")
+                             f"\"{element.name}\"")
             raise err
 
-    def find_key_element(self, element: dict) -> bool:
+    def find_key_element(self, element: PageElement) -> bool:
         try:
             self.find_element(element, False)
             return True
