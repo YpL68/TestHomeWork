@@ -1,6 +1,9 @@
 from framework.page import Page, WebDriver
 from framework.login_page_elements import LoginPageElements as LPElements
 from framework.hamburger_menu_elements import HamburgerMenuElements as HMElements
+import framework.conf.logger
+
+logger = framework.conf.logger.get_logger(__name__)
 
 
 class LoginPage(Page):
@@ -24,5 +27,6 @@ class LoginPage(Page):
             # -------------------------------------------------
 
             return True if self.find_key_element(HMElements.hamburger_menu_button) else False
-        except Exception:
+        except Exception as err:
+            logger.error(f"\nAn error occurred when user_login_test was called:\n{str(err)}")
             return None
